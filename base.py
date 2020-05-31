@@ -36,4 +36,18 @@ class Rentals(db.Model):
         self.contact = contact
 
     def json(self):
-        return {}
+        return {'Address': self.address, 'Price': self.price, 'Bed': self.bed, \
+        'Bath': self.bath, 'Area': self.sqft, 'Pet': self.pet, 'Type': self.type, \
+        'Last Updated': self.last_updated, 'Contact': self.contact}
+
+    @classmethod
+    def find_by_address(cls, address):
+        return cls.query.filter_by(address=address).first()
+
+    def save_to(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete_(self):
+        db.session.delete(self)
+        db.session.commit()
